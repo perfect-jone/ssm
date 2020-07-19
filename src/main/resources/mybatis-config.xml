@@ -3,7 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <!-- 配置环境 -->
+
+    <!-- 1.数据库连接的4个信息单独指定一个文件 -->
+    <properties resource="jdbc.properties"/>
+
+    <!-- 2.起别名，指定实体类所在的包，不区分大小写,全限定类名也可以用 -->
+    <typeAliases>
+        <!-- <typeAlias type="com.ssm.mybatis.bean.User" alias="user"/> -->
+        <package name="com.ssm.mybatis.bean"/>
+    </typeAliases>
+
+    <!-- 3.配置环境 -->
     <environments default="mysql">
         <!-- 配置mysql环境 -->
         <environment id="mysql">
@@ -12,21 +22,20 @@
             <!-- 数据源类型，有3种 -->
             <dataSource type="POOLED">
                 <!-- 数据库连接的4个信息 -->
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://hadoop101:3306/ssm?characterEncoding=UTF-8"/>
-                <property name="username" value="root"/>
-                <property name="password" value="123456"/>
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
             </dataSource>
         </environment>
     </environments>
 
-    <!-- 指定映射配置文件的位置，映射配置文件指的是每个dao独立的配置文件-->
-    <mappers >
+    <!-- 4.指定映射配置文件的位置，映射配置文件指的是每个dao独立的配置文件-->
+    <mappers>
+        <mapper resource="com/ssm/mybatis/dao/IUserDao.xml"/>
+        <mapper resource="com/ssm/mybatis/dao/IAccountDao.xml"/>
 
-         <mapper resource="com/ssm/mybatis/dao/IUserDao.xml"/>
-
-        <!-- 使用注解的方式定义语句
-        <mapper class="com.ssm.mybatis.dao.IUserDao"/>
-        -->
+        <!-- 指定dao接口所在的包 package name="com.ssm.mybatis.dao"/ -->
+        <!-- 使用注解的方式定义语句 <mapper class="com.ssm.mybatis.dao.IUserDao"/> -->
     </mappers>
 </configuration>

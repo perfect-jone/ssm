@@ -45,4 +45,19 @@ public interface IUserDao {
      * 根据姓名模糊查询用户
      */
     List<User> findByName(String username);
+
+    /**
+     * 根据姓名模糊查询用户
+     */
+    List<User> findByCondition(User user);
+
+    /**
+     * 根据多个id查询用户
+     */
+    List<User> findUserInIds(User user);
+
+    /**
+     * 多个条件中选择一个使用条件查询用户
+     */
+    List<User> findByConditionOne(User user);
 }

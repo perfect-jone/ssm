@@ -2,6 +2,7 @@ package com.ssm.mybatis.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Jone
@@ -14,6 +15,24 @@ public class User implements Serializable {
     private Date birthday;
     private String sex;
     private String address;
+    private List<Integer> ids;
+    private List<Account> accounts;
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public List<Integer> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Integer> ids) {
+        this.ids = ids;
+    }
 
     public Integer getId() {
         return id;

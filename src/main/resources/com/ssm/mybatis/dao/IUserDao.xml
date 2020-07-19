@@ -4,9 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssm.mybatis.dao.IUserDao">
-
-    <!-- java类中的属性映射数据库表中的字段，使用resultMap时resultType="com.ssm.mybatis.bean.User必须换成resultMap="userMap"-->
-    <resultMap id="userMap" type="com.ssm.mybatis.bean.User">
+    <!-- java类中的属性映射数据库表中的字段，使用resultMap时resultType="com.ssm.mybatis.dao.bean.user"必须换成resultType="user"-->
+    <resultMap id="userAccountMap" type="user">
         <!-- 主键字段的对应 -->
         <id property="id" column="id"/>
         <!-- 非主键字段的对应 -->
@@ -14,39 +13,87 @@
         <result property="birthday" column="birthday"/>
         <result property="sex" column="sex"/>
         <result property="address" column="address"/>
+        <collection property="accounts" ofType="account">
+            <id property="id" column="aid" />
+            <result property="uid" column="uid"/>
+            <result property="money" column="money"/>
+        </collection>
     </resultMap>
 
-    <!-- 查询所有用户，id为dao层用户接口的方法名-->
-    <select id="findAll" resultMap="userMap">
-        select * from user;
+    <!-- 抽取相同的sql-->
+    <sql id="defaultUser">
+        select * from user
+    </sql>
+
+
+    <select id="findAll" resultMap="userAccountMap">
+        select u.*,a.id as aid,a.uid,a.money from user u left join account a on u.id=a.uid;
     </select>
 
     <!-- 保存用户 -->
-    <insert id="insert" parameterType="com.ssm.mybatis.bean.User">
+    <insert id="insert" parameterType="user">
         <selectKey keyProperty="id" keyColumn="id" order="AFTER" resultType="Integer">
-            select last_insert_id();
+            select last_insert_id()
         </selectKey>
-        insert into user(username,birthday,sex,address) values(#{username},#{birthday},#{sex},#{address});
+        insert into user(username,birthday,sex,address) values(#{username},#{birthday},#{sex},#{address})
     </insert>
 
     <!-- 修改用户 -->
-    <update id="update" parameterType="com.ssm.mybatis.bean.User">
-        update user set username=#{username},birthday=#{birthday},sex=#{sex},address=#{address} where id=#{id};
+    <update id="update" parameterType="user">
+        update user set username=#{username},birthday=#{birthday},sex=#{sex},address=#{address} where id=#{id}
     </update>
 
     <!-- 删除用户 -->
     <delete id="delete" parameterType="Integer">
-        delete from user where id=#{id};
+        delete from user where id=#{id}
     </delete>
 
     <!-- 根据id查询单个用户 -->
-    <select id="selectOneById" resultMap="userMap" parameterType="Integer">
-        select * from user where id=#{id};
+    <select id="selectOneById" resultType="user" parameterType="Integer">
+        select * from user where id=#{id}
     </select>
 
     <!-- 根据姓名模糊查询用户 -->
-    <select id="findByName" resultMap="userMap" parameterType="String">
-        select * from user where username like #{username};
+    <select id="findByName" resultType="user" parameterType="String">
+        select * from user where username like #{username}
         <!-- select * from user where username like '%${value}%'; (容易sql注入)-->
+    </select>
+
+    <select id="findByCondition" resultType="user" parameterType="user">
+        select * from user where 1=1
+        <if test="username != null and username != ''">
+            and username=#{username}
+        </if>
+        <if test="sex !=null and sex != ''">
+            and sex=#{sex}
+        </if>
+    </select>
+
+    <select id="findUserInIds" resultType="user" parameterType="user">
+      select * from user
+      <where>
+          <if test="ids != null and ids.size > 0">
+              <foreach collection="ids" open="id in (" close=")" separator="," item="id">
+                  #{id}
+              </foreach>
+          </if>
+      </where>
+    </select>
+
+    <select id="findByConditionOne" resultType="user" parameterType="user">
+      <include refid="defaultUser"/>
+      <where>
+          <choose>
+              <when test="username != null and username != ''">
+                  username=#{username}
+              </when>
+              <when test="id != null and id != ''">
+                  id=#{id}
+              </when>
+              <otherwise>
+                  and flag = 1
+              </otherwise>
+          </choose>
+      </where>
     </select>
 </mapper>
