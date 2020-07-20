@@ -7,11 +7,24 @@
     <!-- 1.数据库连接的4个信息单独指定一个文件 -->
     <properties resource="jdbc.properties"/>
 
+    <settings>
+        <!-- 全局性地开启或关闭所有映射器配置文件中已配置的任何缓存 -->
+        <setting name="cacheEnabled" value="true"/>
+
+        <!-- 延迟加载的全局开关。当开启时，所有关联对象都会延迟加载 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+
+        <!-- 开启时，任一方法的调用都会加载该对象的所有延迟加载属性。否则，每个延迟加载属性会按需加载 -->
+        <setting name="aggressiveLazyLoading" value="fale"/>
+    </settings>
+
     <!-- 2.起别名，指定实体类所在的包，不区分大小写,全限定类名也可以用 -->
     <typeAliases>
         <!-- <typeAlias type="com.ssm.mybatis.bean.User" alias="user"/> -->
         <package name="com.ssm.mybatis.bean"/>
     </typeAliases>
+
+
 
     <!-- 3.配置环境 -->
     <environments default="mysql">
@@ -34,8 +47,12 @@
     <mappers>
         <mapper resource="com/ssm/mybatis/dao/IUserDao.xml"/>
         <mapper resource="com/ssm/mybatis/dao/IAccountDao.xml"/>
+        <mapper resource="com/ssm/mybatis/dao/IRoleDao.xml"/>
 
         <!-- 指定dao接口所在的包 package name="com.ssm.mybatis.dao"/ -->
-        <!-- 使用注解的方式定义语句 <mapper class="com.ssm.mybatis.dao.IUserDao"/> -->
+        <!-- 使用注解的方式定义语句,不需要写mapper映射文件了 -->
+        <!-- <mapper class="com.ssm.mybatis.dao.IUserDao"/ -->
     </mappers>
+
+
 </configuration>

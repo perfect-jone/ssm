@@ -2,8 +2,10 @@ package com.ssm.mybatis.test;
 
 import cn.hutool.core.date.DateUtil;
 import com.ssm.mybatis.bean.Account;
+import com.ssm.mybatis.bean.Role;
 import com.ssm.mybatis.bean.User;
 import com.ssm.mybatis.dao.IAccountDao;
+import com.ssm.mybatis.dao.IRoleDao;
 import com.ssm.mybatis.dao.IUserDao;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -12,7 +14,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -28,9 +29,11 @@ import java.util.List;
 public class TestMybatis {
 
     private InputStream resource;
+    private SqlSessionFactory sqlSessionFactory;
     private SqlSession sqlSession;
     private IUserDao userDao;
     private IAccountDao accountDao;
+    private IRoleDao roleDao;
 
     @Before
     public void init() throws Exception {
@@ -38,14 +41,14 @@ public class TestMybatis {
         resource = Resources.getResourceAsStream("mybatis-config.xml");
 
         // 2.创建sqlSessionFactory工厂
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resource);
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(resource);
 
         // 3.使用工厂对象创建sqlSession对象,设置自动提交
         sqlSession = sqlSessionFactory.openSession(true);
-
         // 4.使用sqlSession对象创建Dao接口的代理对象
         userDao = sqlSession.getMapper(IUserDao.class);
         accountDao = sqlSession.getMapper(IAccountDao.class);
+        roleDao = sqlSession.getMapper(IRoleDao.class);
     }
 
     @After
@@ -66,7 +69,7 @@ public class TestMybatis {
         List<User> users = userDao.findAll();
         for (User user : users) {
             System.out.println(user);
-            System.out.println(user.getAccounts());
+            //System.out.println(user.getAccounts());
         }
     }
 
@@ -190,5 +193,62 @@ public class TestMybatis {
             System.out.println(account);
             System.out.println(account.getUser());
         }
+    }
+
+    @Test
+    public void testFindRoleAll(){
+        List<Role> roles = roleDao.findAll();
+        for (Role role : roles) {
+            System.out.println(role);
+            System.out.println(role.getUsers());
+        }
+    }
+
+    @Test
+    public void testFindUserAll() {
+
+        // 使用代理对象执行方法
+        List<User> users = userDao.findUserAll();
+        for (User user : users) {
+            System.out.println(user);
+            System.out.println(user.getRoles());
+        }
+    }
+
+    /**
+     *  测试mybatis中的一级缓存：经常使用的，不常改变的，对结果要求不高的数据可以使用缓存
+     *  mybatis中的一级缓存指的是SqlSession对象的缓存
+     *  当sqlSession调用增、删、改或者commit()、close()或者clearCache()方法时,一级缓存就会清空
+     */
+    @Test
+    public void testFirstLevelCache(){
+
+        // select * from user where id=? 只从数据库查询一次，下次从缓存中取数据
+        User user1 = userDao.selectOneById(41);
+        User user2 = userDao.selectOneById(41);
+
+        System.out.println(user1 == user2); //true
+    }
+
+    /**
+     *  mybatis中的二级缓存指的是SqlSessionFactory对象的缓存
+     *  开启二级缓存的步骤： 1.mybatis-config.xml中设置setting标签中的cachEnabledC为true
+     *                      2.配置相关的mapper映射文件,开启二级缓存的支持<cache/>
+     *                      3.mapper文件中select标签中设置useCache为true
+     */
+
+    @Test
+    public void testSecondLevelCache(){
+        SqlSession sqlSession1 = sqlSessionFactory.openSession(true);
+        IUserDao userDao1 = sqlSession1.getMapper(IUserDao.class);
+        User user1 = userDao1.selectOneById(41);
+        sqlSession1.close();
+
+        SqlSession sqlSession2 = sqlSessionFactory.openSession(true);
+        IUserDao userDao2 = sqlSession2.getMapper(IUserDao.class);
+        User user2 = userDao2.selectOneById(41);
+        sqlSession2.close();
+
+        System.out.println(user1 == user2);
     }
 }

@@ -20,6 +20,28 @@
         </collection>
     </resultMap>
 
+    <!-- 开启支持二级缓存-->
+    <cache/>
+
+    <resultMap id="userMap" type="user">
+        <id property="id" column="uid"/>
+        <result property="username" column="username"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="address" column="address"/>
+        <collection property="roles" ofType="role">
+            <id property="id" column="id"/>
+            <result property="roleName" column="role_name" />
+            <result property="roleDesc" column="role_desc" />
+        </collection>
+    </resultMap>
+
+    <select id="findUserAll" resultMap="userMap">
+        select u.id as uid,u.username,u.birthday,u.sex,u.address,r.* from user u
+        left join user_role ur on u.id=ur.uid
+        left join role r on r.id=ur.rid;
+    </select>
+
     <!-- 抽取相同的sql-->
     <sql id="defaultUser">
         select * from user
@@ -48,8 +70,8 @@
         delete from user where id=#{id}
     </delete>
 
-    <!-- 根据id查询单个用户 -->
-    <select id="selectOneById" resultType="user" parameterType="Integer">
+    <!-- 根据id查询单个用户,开启二级缓存 -->
+    <select id="selectOneById" resultType="user" parameterType="Integer" useCache="true">
         select * from user where id=#{id}
     </select>
 
