@@ -1,5 +1,6 @@
 package com.ssm.mybatis.test;
 
+import com.ssm.mybatis.bean.Account;
 import com.ssm.mybatis.bean.User;
 import com.ssm.mybatis.dao.IAccountDao;
 import com.ssm.mybatis.dao.IRoleDao;
@@ -25,6 +26,8 @@ public class TestMybatisAnnotation {
     private SqlSessionFactory sqlSessionFactory;
     private SqlSession sqlSession;
     private IUserDao userDao;
+    private IAccountDao accountDao;
+    private IRoleDao roleDao;
 
 
     @Before
@@ -39,6 +42,7 @@ public class TestMybatisAnnotation {
         sqlSession = sqlSessionFactory.openSession(true);
         // 4.使用sqlSession对象创建Dao接口的代理对象
         userDao = sqlSession.getMapper(IUserDao.class);
+        accountDao = sqlSession.getMapper(IAccountDao.class);
 
     }
 
@@ -68,6 +72,30 @@ public class TestMybatisAnnotation {
         List<User> users = userDao.findUserByAnnotation(user);
         for (User user1 : users) {
             System.out.println(user1);
+        }
+    }
+
+    @Test
+    public void testFindUserById_Annotation(){
+        User user = userDao.findUserById_Annotation(52);
+        System.out.println(user);
+    }
+
+    @Test
+    public void testFindAccountAll_Annotation(){
+        List<Account> accounts = accountDao.findAccountAll_Annotation();
+        for (Account account : accounts) {
+            System.out.println(account);
+            System.out.println(account.getUser());
+        }
+    }
+
+    @Test
+    public void testFindAll_Annotation(){
+        List<User> users = userDao.findAll_Annotation();
+        for (User user : users) {
+            System.out.println(user);
+            System.out.println(user.getAccounts());
         }
     }
 }
