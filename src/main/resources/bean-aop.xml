@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 配置srping的IOC -->
+    <bean id="accountService" class="com.ssm.aop.service.impl.AccountServiceImpl"/>
+    <bean id="logger" class="com.ssm.aop.utils.Logger"/>
+
+    <!-- 配置AOP -->
+    <aop:config >
+        <!-- 配置切面-->
+        <aop:aspect id="logAdvice"  ref="logger" >
+            <!-- 配置通知的类型，并且建立通知方法和切入点方法的关联,后置通知和异常通知只能出现一个，前置，后置，异常，最终 类似于try catch finally-->
+            <aop:before method="beforePrintLog" pointcut-ref="pointcut"/>
+
+            <aop:after-returning method="afterReturningPrintLog" pointcut-ref="pointcut"/>
+
+            <aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pointcut"/>
+
+            <aop:after-returning method="afterPrintLog" pointcut-ref="pointcut"/>
+
+            <aop:pointcut id="pointcut" expression="execution(* com.ssm.aop.service.impl.*.*(..))"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

@@ -123,6 +123,4 @@
     <!-- 其他bean类型 -->
     <bean id="now" class="java.util.Date"/>
 
-
-
 </beans>
