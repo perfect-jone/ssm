@@ -27,15 +27,15 @@ import java.util.*;
  *     <property name="" value="" ref=""/>
  * </bean>
  *
- *  用于创建对象的
+ *  创建对象
  *      类似<bean></bean>实现的功能
- *      @Component注解，对应的id是@Component的属性value,默认是当前类名，首字母小写
+ *      @Component ：对应的id是@Component的属性value,默认是当前类名，首字母小写
  *      @Controller ：一般用在表现层
  *      @Service ：一般用在业务层
  *      @Repository ：一般用在持久层
  *      以上三个注解和@Component的属性和作用是一样的，只是让三层对象更加清晰
  *
- *  用于注入数据的
+ *  注入数据
  *      类似<property></property>实现的功能
  *      @Autowired : 自动按照类型注入，只要容器中有唯一的bean对象类型和要注入的变量类型匹配，则可以注入成功
  *      @Qualifier : 按照类型注入的基础上，再按照名称注入，给属性注解时不能单独使用，必须结合@Autowired注解使用，给方法参数注入时可单独使用
@@ -43,12 +43,14 @@ import java.util.*;
  *      以上三个注解只能注入其他bean类型的数据，不能注入基本数据类型和String类型，
  *      另外，集合类型的注入只能通过XML的方式来实现
  *      @Value ：注入基本数据类型和String类型，value属性用于指定数据的值，可是使用spring中SpEL（el表达式），${表达式}
- *  用于改变作用范围的
+ *
+ *  改变作用范围
  *      类似scope属性实现的功能
- *      @Scope : 属性value：常用取值有两个ingleton和prototype
- *  和生命周期相关的
- *          @PostConstruct : 初始化方法注解
- *          @PreDestroy : 销毁方法注解
+ *      @Scope : 属性value：常用取值有两个singleton和prototype
+ *
+ *  生命周期
+ *      @PostConstruct : 初始化方法注解
+ *      @PreDestroy : 销毁方法注解
  *
  *      类似init-method和destroy-method属性实现的功能
  *

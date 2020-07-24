@@ -6,7 +6,7 @@
 
     <!--
         IOC：作用是把对象的创建权，反转到Spring，让Spring容器来管理
-        DI：作用是Spring创建对象的过程中，将对象依赖属性通过配置进行注入
+        DI：作用是Spring创建对象的过程中，将对象依赖属性通过配置进行注入，向类的属性设置值
     -->
 
     <!--spring对bean的管理细节：
@@ -20,12 +20,13 @@
     <!--<bean id="daoService" class="com.ssm.spring.dao.impl.AccountDaoImpl" />-->
     <!--<bean id="accountService" class="com.ssm.spring.service.impl.AccountServiceImpl"/>-->
 
-
-    <!-- 第二种方式：使用工厂中的方法创建对象（使用某个类中的方法创建对象，并存入spring中）-->
-<!--<bean id="instanceFactory" class="com.ssm.spring.factory.InstanceFactory"/>
-    <bean id="accountService" factory-bean="instanceFactory" factory-method="getAccountService"/>-->
+    <!-- 第二种方式：使用工厂中的方法创建对象（使用某个类中的方法创建对象，并存入spring中） -->
+    <!-- AccountServiceImpl accountService = instanceFactory.getAccountService-->
+    <!--<bean id="instanceFactory" class="com.ssm.spring.factory.InstanceFactory"/>-->
+    <!--<bean id="accountService" factory-bean="instanceFactory" factory-method="getAccountService"/>-->
 
     <!-- 第三种方式：使用工厂中的静态方法创建对象（使用某个类中的静态方法创建对象，并存入spring中）-->
+    <!-- AccountServiceImpl accountService = InstanceFactory.getAccountService-->
     <!--<bean id="accountService" class="com.ssm.spring.factory.InstanceFactory" factory-method="getAccountService"/>-->
 
 
@@ -66,11 +67,12 @@
     -->
 
     <!-- 构造函数注入 -->
-<!--    <bean id="accountService" class="com.ssm.spring.service.impl.AccountServiceImpl">
-        <constructor-arg name="name" value="jone"/>
-        <constructor-arg name="age" value="18"/>
-        <constructor-arg name="birthday" ref="now"/>
-    </bean>-->
+    <!--    <bean id="accountService" class="com.ssm.spring.service.impl.AccountServiceImpl">
+            <constructor-arg name="name" value="jone"/>
+            <constructor-arg name="age" value="18"/>
+            <constructor-arg name="birthday" ref="now"/>
+            </bean>
+     -->
 
     <!-- set方式注入 -->
     <bean id="accountService" class="com.ssm.spring.service.impl.AccountServiceImpl">
