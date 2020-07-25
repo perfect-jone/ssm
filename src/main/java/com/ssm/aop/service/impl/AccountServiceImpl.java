@@ -5,6 +5,7 @@ package com.ssm.aop.service.impl;
 import com.ssm.aop.dao.IAccountDao;
 import com.ssm.aop.domain.Account;
 import com.ssm.aop.service.IAccountService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  *
  * 事务控制应该都是在业务层
  */
+@Service("accountService")
 public class AccountServiceImpl implements IAccountService {
 
     private IAccountDao accountDao;

@@ -40,6 +40,8 @@ public class BeanFactory {
                      * @return
                      * @throws Throwable
                      */
+
+                    // 整个invoke方法就是环绕通知
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
                         if("test".equals(method.getName())){
@@ -48,20 +50,20 @@ public class BeanFactory {
 
                         Object rtValue = null;
                         try {
-                            //1.开启事务
+                            //1.开启事务，前置通知
                             txManager.beginTransaction();
-                            //2.执行操作
+                            //2.执行操作，明确的切入点方法调用
                             rtValue = method.invoke(accountService, args);
-                            //3.提交事务
+                            //3.提交事务，后置通知
                             txManager.commit();
                             //4.返回结果
                             return rtValue;
                         } catch (Exception e) {
-                            //5.回滚操作
+                            //5.回滚操作，异常通知
                             txManager.rollback();
                             throw new RuntimeException(e);
                         } finally {
-                            //6.释放连接
+                            //6.释放连接，最终通知
                             txManager.release();
                         }
                     }

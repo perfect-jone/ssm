@@ -232,7 +232,7 @@ public class TestMybatis {
 
     /**
      *  mybatis中的二级缓存指的是SqlSessionFactory对象的缓存
-     *  开启二级缓存的步骤： 1.mybatis-config.xml中设置setting标签中的cachEnabledC为true
+     *  开启二级缓存的步骤： 1.mybatis-config.xml中设置setting标签中的cacheEnabled为true
      *                      2.配置相关的mapper映射文件,开启二级缓存的支持<cache/>
      *                      3.mapper文件中select标签中设置useCache为true
      */

@@ -4,65 +4,43 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!--
-        IOC：作用是把对象的创建权，反转到Spring，让Spring容器来管理
-        DI：作用是Spring创建对象的过程中，将对象依赖属性通过配置进行注入，向类的属性设置值
-    -->
 
     <!--spring对bean的管理细节：
-            1.创建bean的三种方式
-            2.bean对象的作用范围
-            3.bean对象的生命周期
-    -->
-
-    <!-- 第一种方式：使用默认构造方法创建 如果类中没有默认构造方法，则无法创建对象-->
-    <!--  把对象的创建权交给Spring Ioc来管理 ,id和class对应key,value-->
-    <!--<bean id="daoService" class="com.ssm.spring.dao.impl.AccountDaoImpl" />-->
-    <!--<bean id="accountService" class="com.ssm.spring.service.impl.AccountServiceImpl"/>-->
-
-    <!-- 第二种方式：使用工厂中的方法创建对象（使用某个类中的方法创建对象，并存入spring中） -->
-    <!-- AccountServiceImpl accountService = instanceFactory.getAccountService-->
-    <!--<bean id="instanceFactory" class="com.ssm.spring.factory.InstanceFactory"/>-->
-    <!--<bean id="accountService" factory-bean="instanceFactory" factory-method="getAccountService"/>-->
-
-    <!-- 第三种方式：使用工厂中的静态方法创建对象（使用某个类中的静态方法创建对象，并存入spring中）-->
-    <!-- AccountServiceImpl accountService = InstanceFactory.getAccountService-->
-    <!--<bean id="accountService" class="com.ssm.spring.factory.InstanceFactory" factory-method="getAccountService"/>-->
-
-
-    <!-- bean对象的作用范围：
-        scope属性： singleton 单例
-                    prototype 多例
-    -->
-
-    <!-- bean对象的生命周期
+    1.创建bean的三种方式:
+        第一种方式：使用默认构造方法创建 如果类中没有默认构造方法，则无法创建对象
+            把对象的创建权交给Spring Ioc来管理 ,id和class对应key,value
+            bean id="daoService" class="com.ssm.spring.dao.impl.AccountDaoImpl" />
+            <bean id="accountService" class="com.ssm.spring.service.impl.AccountServiceImpl"/>
+        第二种方式：使用工厂中的方法创建对象（使用某个类中的方法创建对象，并存入spring中）
+            AccountServiceImpl accountService = instanceFactory.getAccountService
+            <bean id="instanceFactory" class="com.ssm.spring.factory.InstanceFactory"/>
+            <bean id="accountService" factory-bean="instanceFactory" factory-method="getAccountService"/>
+        第三种方式：使用工厂中的静态方法创建对象（使用某个类中的静态方法创建对象，并存入spring中)
+            AccountServiceImpl accountService = InstanceFactory.getAccountService
+            <bean id="accountService" class="com.ssm.spring.factory.InstanceFactory" factory-method="getAccountService"/>
+    2.bean对象的作用范围：
+        scope属性： singleton  单例
+        prototype 多例
+    3.bean对象的生命周期
         单例对象：
-            出生：随容器的创建而出生
-            活着：容器在，对象在
-            死亡：容器亡，对象亡
-         多例对象：
-            出生：当我们使用对象时，spring为我们创建
-            活着：对象只要在使用过程中就一直活着
-            死亡：当对象长期不使用，并且没有别的对象引用时，就会被java垃圾回收器回收
+        出生：随容器的创建而出生
+        活着：容器在，对象在
+        死亡：容器亡，对象亡
+        多例对象：
+        出生：当我们使用对象时，spring为我们创建
+        活着：对象只要在使用过程中就一直活着
+        死亡：当对象长期不使用，并且没有别的对象引用时，就会被java垃圾回收器回收
     -->
-
     <!-- spring中的依赖注入
         依赖注入：
             Dependency Injection
-        控制反转（IOC）的作用：
-            降低程序间的耦合
-        依赖关系的管理：
-            以后都交给spring来管理，在当前类需要用到其他类，由spring为我们提供，只需要在配置文件中说明
-        依赖关系的维护：
-            就称之为依赖注入
-        依赖注入：
             能注入的数据，有三类：
                 1. 基本数据类型和String
                 2. 其他bean类型（配置文件或者注解中配置过的bean）
                 3. 复杂类型/集合类型
             注入的方式，有三种：
-                1. 构造函数
-                2. set方法
+                1. 构造函数：必须有无参的构造方法
+                2. set方法：提供set方法
                 3. 注解
     -->
 

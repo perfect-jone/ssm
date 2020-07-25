@@ -10,7 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class TestAOP {
     public static void main(String[] args) {
-        ApplicationContext ac = new ClassPathXmlApplicationContext("bean-aop.xml");
+        ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("bean-aop.xml");
         IAccountService accountService = ac.getBean("accountService", IAccountService.class);
         accountService.saveAccount();
 /*        accountService.updateAccount(10);

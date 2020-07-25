@@ -2,30 +2,46 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         https://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/aop
-        https://www.springframework.org/schema/aop/spring-aop.xsd">
+        https://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- 配置srping的IOC -->
+
+    <!-- 开启IOC容器扫描 -->
+    <context:component-scan base-package="com.ssm.aop"/>
+
+    <!-- 开启AOP支持 -->
+    <aop:aspectj-autoproxy/>
+
+<!--    &lt;!&ndash; 配置srping的IOC &ndash;&gt;
     <bean id="accountService" class="com.ssm.aop.service.impl.AccountServiceImpl"/>
     <bean id="logger" class="com.ssm.aop.utils.Logger"/>
 
-    <!-- 配置AOP -->
+
+    &lt;!&ndash; 配置AOP &ndash;&gt;
     <aop:config >
-        <!-- 配置切面-->
+        &lt;!&ndash; 配置切面&ndash;&gt;
         <aop:aspect id="logAdvice"  ref="logger" >
-            <!-- 配置通知的类型，并且建立通知方法和切入点方法的关联,后置通知和异常通知只能出现一个，前置，后置，异常，最终 类似于try catch finally-->
-            <aop:before method="beforePrintLog" pointcut-ref="pointcut"/>
+            &lt;!&ndash; 配置通知的类型，并且建立通知方法和切入点方法的关联,后置通知和异常通知只能出现一个，前置，后置，异常，最终 类似于try catch finally&ndash;&gt;
+            &lt;!&ndash;<aop:before method="beforePrintLog" pointcut-ref="pointcut"/>&ndash;&gt;
 
-            <aop:after-returning method="afterReturningPrintLog" pointcut-ref="pointcut"/>
+            &lt;!&ndash;<aop:after-returning method="afterReturningPrintLog" pointcut-ref="pointcut"/>&ndash;&gt;
 
-            <aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pointcut"/>
+            &lt;!&ndash;<aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pointcut"/>&ndash;&gt;
 
-            <aop:after-returning method="afterPrintLog" pointcut-ref="pointcut"/>
+            &lt;!&ndash;<aop:after-returning method="afterPrintLog" pointcut-ref="pointcut"/>&ndash;&gt;
 
+            &lt;!&ndash; 环绕通知 &ndash;&gt;
             <aop:pointcut id="pointcut" expression="execution(* com.ssm.aop.service.impl.*.*(..))"/>
+            <aop:around method="aroundPrintLog" pointcut-ref="pointcut"/>
+
         </aop:aspect>
-    </aop:config>
+    </aop:config>-->
+
+
 
 </beans>
