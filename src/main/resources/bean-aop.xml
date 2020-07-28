@@ -17,30 +17,30 @@
     <!-- 注解：开启AOP支持 -->
     <aop:aspectj-autoproxy/>
 
-<!--    &lt;!&ndash; 配置srping的IOC &ndash;&gt;
+    <!-- 配置srping的IOC -->
     <bean id="accountService" class="com.ssm.aop.service.impl.AccountServiceImpl"/>
     <bean id="logger" class="com.ssm.aop.utils.Logger"/>
 
 
-    &lt;!&ndash; 配置AOP &ndash;&gt;
+    <!-- 配置AOP -->
     <aop:config >
-        &lt;!&ndash; 配置切面&ndash;&gt;
+        <!-- 配置切面-->
         <aop:aspect id="logAdvice"  ref="logger" >
-            &lt;!&ndash; 配置通知的类型，并且建立通知方法和切入点方法的关联,后置通知和异常通知只能出现一个，前置，后置，异常，最终 类似于try catch finally&ndash;&gt;
-            &lt;!&ndash;<aop:before method="beforePrintLog" pointcut-ref="pointcut"/>&ndash;&gt;
+            <!-- 配置通知的类型，并且建立通知方法和切入点方法的关联,后置通知和异常通知只能出现一个，前置，后置，异常，最终 类似于try catch finally-->
+            <!--<aop:before method="beforePrintLog" pointcut-ref="pointcut"/>-->
 
-            &lt;!&ndash;<aop:after-returning method="afterReturningPrintLog" pointcut-ref="pointcut"/>&ndash;&gt;
+            <!--<aop:after-returning method="afterReturningPrintLog" pointcut-ref="pointcut"/>-->
 
-            &lt;!&ndash;<aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pointcut"/>&ndash;&gt;
+            <!--<aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pointcut"/>-->
 
-            &lt;!&ndash;<aop:after-returning method="afterPrintLog" pointcut-ref="pointcut"/>&ndash;&gt;
+            <!--<aop:after-returning method="afterPrintLog" pointcut-ref="pointcut"/>-->
 
-            &lt;!&ndash; 环绕通知 &ndash;&gt;
+            <!-- 环绕通知 -->
             <aop:pointcut id="pointcut" expression="execution(* com.ssm.aop.service.impl.*.*(..))"/>
             <aop:around method="aroundPrintLog" pointcut-ref="pointcut"/>
 
         </aop:aspect>
-    </aop:config>-->
+    </aop:config>
 
 
 
