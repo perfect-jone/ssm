@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssm.mybatis.dao.IUserDao">
-    <!-- java类中的属性映射数据库表中的字段，使用resultMap时resultType="com.ssm.mybatis.dao.bean.user"必须换成resultType="user"-->
+    <!-- java类中的属性映射数据库表中的字段，使用resultMap时resultType="com.ssm.mybatis.dao.bean.user"必须换成resultMap="user"-->
     <resultMap id="userAccountMap" type="user">
         <!-- 主键字段的对应 -->
         <id property="id" column="id"/>

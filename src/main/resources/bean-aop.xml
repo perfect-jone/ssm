@@ -14,7 +14,7 @@
     <!-- 开启IOC容器扫描 -->
     <context:component-scan base-package="com.ssm.aop"/>
 
-    <!-- 开启AOP支持 -->
+    <!-- 注解：开启AOP支持 -->
     <aop:aspectj-autoproxy/>
 
 <!--    &lt;!&ndash; 配置srping的IOC &ndash;&gt;
